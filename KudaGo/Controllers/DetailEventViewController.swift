@@ -10,7 +10,7 @@ import UIKit
 class DetailEventViewController: UIViewController {
     var event: Event?
 
-    @IBOutlet weak var imageView: UIImageView!
+    @IBOutlet weak var imageView: LoadedImageView!
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var descriptionTextView: UITextView!
     
@@ -24,17 +24,9 @@ class DetailEventViewController: UIViewController {
         titleLabel.text = event.title?.capitalized
         descriptionTextView.text = event.bodyText
         
-        guard let imageURLString = event.images?.first?.image else { return }
-        DispatchQueue.global().async {
-            let image = ImageLoadingManager.shared.getImageFromURL(urlString: imageURLString)
-            DispatchQueue.main.async {
-                self.imageView.alpha = 0
-                self.imageView.image = image
-                UIView.animate(withDuration: 1,
-                               delay: 0,
-                               options: .curveEaseIn,
-                               animations: { self.imageView.alpha = 1 } )
-            }
-        }
+        guard let imageURLString = event.images?.first?.image,
+              let imageURL = URL(string: imageURLString) else { return }
+        imageView.loadImage(from: imageURL)
+        
     }
 }

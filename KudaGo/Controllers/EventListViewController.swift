@@ -17,11 +17,6 @@ class EventListViewController: UICollectionViewController {
         super.viewDidLoad()
         getPageOfEvents()
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        ImageLoadingManager.shared.loadedImages.removeAll()
-    }
     
     // MARK: Navigation
 
